@@ -1,0 +1,184 @@
+package com.company;
+import java.text.DecimalFormat;
+import java.util.Scanner;
+public class OwusuSefah_Bernard {
+    public static void main (String[] args){
+
+        new Modulo_Division().modulo();
+        new Approximating_Pi().pi();
+        new Wind_Chill().chill();
+        new Distance().distance();
+        new ConvertToUpper().upper();
+        new Circle().inCircle();
+        new ThreeGuesses().guesses();
+        new Taxes().taxes();
+
+    }
+}
+class Modulo_Division{
+    void modulo() {
+        System.out.println("Enter a 3 digit integer : ");
+        Scanner console = new Scanner(System.in);
+        if (console.hasNextInt()) {
+            String string = console.next();
+            int number = Integer.parseInt(string);
+            int num1 = number % 10;
+            int num2 = number % 100 / 10;
+            int num3 = number % 1000 / 100;
+            int totalNum = num1 + num2 + num3;
+            System.out.println("The sum of the digits is :" + totalNum);
+        } else {
+            System.out.println("Not an integer");
+        }
+        }
+    }
+
+class Distance{
+    void distance() {
+        Scanner points = new Scanner(System.in);
+        double x1 = 0.0; double x2 = 0.0;
+        int y1 = 0;
+        int y2 = 0;
+        System.out.println("Enter x1 and y2: ");
+        x1 = points.nextDouble();
+        y1 = points.nextInt();
+        System.out.println("Enter x2 and y2: ");
+        x2 = points.nextDouble();
+        y2 = points.nextInt();
+        double distance = (
+                (Math.pow((Math.pow(x2 - x1, 2.0) + (Math.pow(y2 - y1, 2.0))), 0.5)));
+        System.out.println("The distance is " + distance);
+        System.out.println();
+        }
+        // write your code here
+
+    }
+class Approximating_Pi{
+    void pi() {
+        double x = 1.0;
+        double calcPi = 4.0*(x - (1.0/3) + (1.0/5) + (1.0/7) + (1.0/9) + (1.0/11) + (1.0/13));
+        System.out.println(calcPi);
+
+        double calcPi2 = 4.0*(1.0 - (1.0/3) + (1.0/5) - (1.0/7) + (1.0/9) * (1.0/11) + (1.0/13));
+        System.out.println(calcPi2);
+        //write your code here
+    }
+}
+ class Wind_Chill {
+    void chill(){
+      Scanner wind = new Scanner(System.in);
+      System.out.println("Enter the temperature in Fahrenheit " + "between -58ºF and 41ºF : ") ;
+      double temperature = wind.nextDouble();
+      System.out.println("Enter the wind speed (mph) in miles per hour : ");
+
+      double speed = wind.nextDouble();
+      double windChill = ((35.74 + (0.6215 * temperature)) - (35.75 * Math.pow(speed, 0.16))) + (0.4275 * temperature * Math.pow(speed, 0.16));
+      System.out.println("The windchill index is : " + windChill);
+
+        //write your code here
+    }
+}
+class ConvertToUpper{
+    void upper(){
+        Scanner letter = new Scanner(System.in);
+        System.out.println("Enter a Character in Lowercase : ");
+        char letterL = letter.next().charAt(0);
+
+
+        if( Character.isLetter(letterL) == true) {
+            char letterU = Character.toUpperCase(letterL);
+            System.out.println("Equivalent Uppercase of " + letterL + " is " + letterU);
+        } else {
+            System.out.println(letterL + " is not a letter.");
+
+        }
+        //write your code here
+    }
+}
+class Circle {
+    void inCircle(){
+        Scanner input = new Scanner(System.in);
+
+        System.out.println("Enter X and Y coordinate: ");
+        double x = input.nextDouble();
+        double y = input.nextDouble();
+
+        if (Math.pow(x * x + y * y, 0.5D) <= 10.0) {
+            System.out.println("Point (" + x + ", " + y + ") is in the circle");
+        } else {
+            System.out.println("Point (" + x + ", " + y
+                    + ") is not in the circle");
+        }
+
+
+        //write your code here
+
+    }
+}
+class ThreeGuesses {
+    void guesses() {
+        Scanner secretcode = new Scanner(System.in);
+
+        System.out.println("Welcome to People's Bank");
+        System.out.println("Please enter your secret code");
+        int x = secretcode.nextInt();
+        if (x == 51) {
+            System.out.println("Fine go ahead. ");
+        } else {
+            System.out.println("Sorry wrong code, Please try again: ");
+        }
+        x = secretcode.nextInt();
+        if (x == 51) {
+            System.out.println("Fine go ahead. ");
+        } else {
+            System.out.println("Sorry last chance, Try again: ");
+        }
+        x = secretcode.nextInt();
+        if (x == 51) {
+            System.out.println("Fine go ahead: ");
+        }
+    }
+}
+
+class Taxes {
+    void taxes() {
+        Scanner incomeIn = new Scanner(System.in);
+        System.out.println("Enter your income: ");
+        int income = incomeIn.nextInt();
+        int taxB1 = 9325;
+        int taxB2 = 37950;
+        int taxB3 = 91900;
+        int taxB4 = 191650;
+        int taxB5 = 416700;
+        int taxB6 = 418400;
+        double tax = 0.0;
+
+        incomeIn.close();
+
+        // 10% tax bracket
+        if (income <= taxB1) {
+            tax = (0.1 * income);
+        } else if (income >= taxB1 && income <= taxB2) {
+            tax = ((0.1 * taxB1) + (.15 * (income - taxB1)));
+        } else if (income >= taxB2 && income <= taxB3) {
+            tax = ((0.1 * taxB1) + (.15 * (taxB2 - taxB1)) + (.25 * (income - taxB2)));
+        } else if (income >= taxB3 && income <= taxB4) {
+            tax = ((0.1 * taxB1) + (.15 * (taxB2 - taxB1)) + (.25 * (taxB3 - taxB2)) + (.28 * (income - taxB3)));
+        } else if (income >= taxB4 && income <= taxB5) {
+            tax = ((0.1 * taxB1) + (.15 * (taxB2 - taxB1)) + (.25 * (taxB3 - taxB2)) + (.28 * (taxB4 - taxB3)) + (.33 * (income - taxB4)));
+        } else if (income >= taxB5 && income <= taxB6) {
+            tax = ((0.1 * taxB1) + (.15 * (taxB2 - taxB1)) + (.25 * (taxB3 - taxB2)) + (.28 * (taxB4 - taxB3)) + (.33 * (taxB5 - taxB4)) + (.35 * (income - taxB5)));
+        } else if (income >= 418400) {
+            tax = ((0.1 * taxB1) + (.15 * (taxB2 - taxB1)) + (.25 * (taxB3 - taxB2)) + (.28 * (taxB4 - taxB3)) + (.33 * (taxB5 - taxB4)) + (.35 * (taxB6 - taxB5)) + (.396 * (income - taxB6)));
+
+            System.out.println(tax);
+        }
+        DecimalFormat df = new DecimalFormat("$###,###.##");
+        System.out.println("Your 2018 tax is " + tax);
+
+
+        //write your code here
+
+
+    }
+}
