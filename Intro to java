@@ -1,0 +1,20 @@
+package com.company;
+
+import java.util.Scanner;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner inputDevice = new Scanner(System.in);
+    System.out.println(" Please enter the Quantity Desired : ");
+    int quantity = inputDevice.nextInt();
+    System.out.println(" Please enter the Unit Price : ");
+    int price = inputDevice.nextInt();
+
+    System.out.println(" The Quantity Desired is : " + quantity);
+    System.out.println(" The Unit Price is : $" + price);
+    System.out.println("The Total is : " + price*quantity);
+    inputDevice.close();
+
+    }
+}
