@@ -1,0 +1,111 @@
+EECS 1510   Object Oriented Programming Project 4 – Phonebook 2019  200 Points  Due in Blackboard 11:59p.m., April 12th, 2019 Note 1:  This project and the next project may be done in pairs. If working as a pair, submit one copy only, with both names clearly visible.  The pairs CANNOT be the same on both projects.   Note 2:  There is no extra credit on this project, but considerable extra credit on the next project.  The next project is the final project, and is also worth considerably more points.   Consider a program to enter codes of one to eight characters along with an associated telephone number and associated notes.  A code can represent a person's name, a person's initials, a place, or anything.   By using such a program, we could enter telephone numbers or notes and associate them with some brief code (i.e. string), which hopefully would be easy to remember.  We could then retrieve a given telephone number or notes by entering the code.  This might be a useful application for a simple cell phone.  Codes are entered as 1 to 8 characters. Use "e" for enter, "f" for find, "l" for list, "q" for quit. Command: e Bill Enter number: 419-536-1234 Enter notes:  Command: e JB Enter number: 510-0114 Enter notes:  Charlie’s place Command: e Jones Enter number: 413-257-1234 Enter notes:  Karen and Jason Command: e wm Enter number: 419-257-1234 Enter notes:  Walmart Command: f JB -- JB -- 617-510-0114 -- Charlie’s place Command: f Jane ** No entry with code Jane Command:  . . . The "l" command will list all entries on the screen.
+
+For the input to this program, upper and lower case letters are considered equivalent.  For example, if a telephone number is entered with the code "Jones", then the codes "JONES", "jones", and "JONes" will all retrieve the telephone number entered with "Jones". The entries are to be stored in a file from run to run.  When the program begins, the entries in the file are to be read into an array. The array should allow for up to 200 entries.  The phonebook need not be kept in alphabetical order.  You may use a simple sequential search to retrieve entries.   When the program is exited, the entries should be stored back in a file for use when the program is run again.  Required Program Characteristics: The assignment is to write a program that incorporates the above features.  The entries in the phonebook are to be represented with a simple class: class Entry {    public String name, number, notes; } Use an array to store the entries.  The array should allow for up to 200 entries.  public Entry[] entryList = new Entry[200];  Use a static method to read the entries into the program from a file, and a static method to store the entries back into the file when the program is exited. public static void readPhoneBook  (String FileName) throws Exception public static void storePhoneBook (String FileName) throws Exception  Also, use a static method to list all entries: public static void listAllEntriess()   
+
+Writing to a File public static void WritePhoneBook(String FileName) throws Exception{    PrintStream P  = new PrintStream(FileName); for (int i=0; i < num_entries ; i++) { P.println( entry List [i].name   + "\t" + entry List [i].number + "\t" +     entry List [i].notes);    } P.close(); System.out.println(“Phonebook stored.”) 
+
+
+
+
+package com.company;
+
+import java.io.*;
+import java.util.Scanner;
+
+public class Phonebook {
+        public static Entry[] entryList = new Entry[200];
+
+
+        public static void main(String[] args) {
+                Scanner input = new Scanner(System.in);
+                System.out.println("Guide: e for enter, f for find, l for list, q for quit.");
+                String name, number, notes, filename;
+                char Command;
+                Entry Enter;
+                int count = 0;
+                filename = "names.txt.txt";
+                int num_entries;
+                try {
+                        count = readPhonebook(filename);
+                } catch (FileNotFoundException ex) {
+                        System.out.println("There is no file @ " + filename + ".");
+                }
+                System.out.println("Command: ");
+                String inputCmd = input.nextLine();
+                String[] cmdName = inputToCmd(inputCmd);
+                Command = cmdName[0].charAt(0);
+                count = function(cmdName, count, entryList);
+                try {
+                        WritePhoneBook(filename, count, entryList);
+                } catch (FileNotFoundException ex) {
+                        System.out.println("There is no file @ " + filename + ".");
+                }
+
+
+        }
+
+        public static int readPhonebook(String filename) throws FileNotFoundException {
+                // needs fixed
+                File input = new File(filename);
+                Scanner read = new Scanner(input);
+                int count = 0;
+                while (read.hasNextLine()) {
+                        String phone = read.nextLine();
+                        String[] num = phone.split("\\s+");
+                        Entry text = new Entry(num[0], num[1], num[2]);
+                        entryList[count] = text;
+                        WritePhoneBook(filename, count, entryList);
+                        count++;
+                }
+                return count;
+        }
+
+
+        public static void WritePhoneBook(String filename, int count, Entry entryList[]) throws FileNotFoundException {
+                PrintStream P = new PrintStream(filename);
+                for (int i = 0; i < count; i++) {
+                        P.println(entryList[i].name + " " +
+                                entryList[i].number + " " +
+                                entryList[i].notes);
+                }
+                P.close();
+        }
+
+        public static String[] inputToCmd(String sin) {
+                sin.trim();
+                String[] cmdName = sin.split("\\s+");
+                return cmdName;
+        }
+
+        public static int function(String[] cmdName, int num_entries, Entry entryList[]) {
+                char command = cmdName[0].charAt(0);
+                String name, number, notes;
+                if (command == 'e') {
+                        Scanner input = new Scanner(System.in);
+                        name = cmdName[1];
+                        System.out.println("Number:  ");
+                        number = input.nextLine();
+                        number.trim();
+                        System.out.println("Notes:  ");
+                        notes = input.nextLine();
+                        Entry text = new Entry(name, number, notes);
+                        entryList[num_entries] = text;
+                        num_entries++;
+                } else if (command == 'f') {
+
+                } else if (command == 'l') {
+
+                } else if (command == 'q') {
+                        System.out.println("System exiting.");
+                        System.exit(0);
+                }
+                return num_entries;
+        }
+}
+
+
+
+
+
+
+
