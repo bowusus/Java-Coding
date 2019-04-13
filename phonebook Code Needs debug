@@ -1,0 +1,119 @@
+package com.company;
+
+import com.company.Entry;
+
+import java.io.*;
+import java.util.Scanner;
+
+public class Phonebook_Bernard_OwususSefah {
+        public static Entry[] entryList = new Entry[200];
+        static int count = 0;
+
+        public static void main(String[] args){
+                System.out.println("Guide: e for enter, f for find, l for list, q for quit.");
+                        String filename;
+                        // The file with the saved data is to be named names.txt; located within the project folder.
+                        // directory is as follows: C:\\Users\\username\\IdeaProjects\\Project
+                        // directory may be different if your system has IdeaProjects saved in a different location.
+                        filename = "names.txt";
+                        try {
+                                count = readPhonebook(filename);
+                                System.out.println(count);
+                        } catch (FileNotFoundException ex) {
+                                System.out.println("There is no file @ " + filename + ".");
+                        }
+                        System.out.print("Command:  ");
+                        count = function(count, entryList);
+                        try {
+                                WritePhoneBook(filename, entryList, count);
+                        } catch (FileNotFoundException ex) {
+                                System.out.println("There is no file @ " + filename + ".");
+                        }
+        }
+
+        public static int readPhonebook(String filename) throws FileNotFoundException{
+                // needs fixed
+                File input = new File(filename);
+                Scanner read = new Scanner(input);
+                int count = 0;
+                while (read.hasNextLine()){
+                        String name = read.nextLine();
+                        String number = read.nextLine();
+                        String notes = read.nextLine();
+                        Entry entry = new Entry(name, number, notes);
+                        entryList[count] = entry;
+                        count++;
+                }
+                return count;
+        }
+
+        public static void WritePhoneBook(String filename, Entry entryList[], int lengthOfEntryArray) throws FileNotFoundException {
+                PrintStream P = new PrintStream(filename);
+                for (int i = 0; i < lengthOfEntryArray; i++){
+                        P.println(entryList[i].name + "\n" +
+                                entryList[i].number + "\n" +
+                                entryList[i].notes);
+                }
+                P.close();
+        }
+
+        public static int function(int lengthOfEntryList, Entry entryList[]) {
+                Scanner input = new Scanner(System.in);
+                char command = 'a';
+                String name, number, notes;
+
+                while(command != 'q') {
+                        String inputCmd = input.nextLine();
+                        command = inputCmd.charAt(0);
+                        if (command == 'e') {
+                                System.out.println("Name: ");
+                                name = input.nextLine();
+                                while(name.length() > 7) {
+                                        System.out.println("Name cannot be greater than 7 characters");
+                                        System.out.println("Name: ");
+                                        name = input.nextLine();
+                                }
+                                System.out.print("Number:  ");
+                                number = input.nextLine();
+                                System.out.print("Notes:  ");
+                                notes = input.nextLine();
+                                entryList[lengthOfEntryList] = new Entry(name, number, notes);
+                                lengthOfEntryList++;
+
+                        } else if (command == 'f') {
+                                name = input.next().toLowerCase().trim();
+                                for (int i = 0; i < lengthOfEntryList; i++) {
+                                        if (name.equals(entryList[i].name.toLowerCase().trim())) {
+                                                System.out.println(" --  " + entryList[i].name + "\n" +
+                                                        " --  " + entryList[i].number + "\n" +
+                                                        " --  " + entryList[i].notes);
+                                        } else if (i == lengthOfEntryList - 1 && !(name.equals(entryList[i].name.toLowerCase().trim()))) {
+                                                System.out.println("** No entry with code " + name);
+                                        }
+                                }
+
+                        } else if (command == 'l') {
+                                if (entryList[0] != null) {
+                                        System.out.println("Listing all Entries:");
+                                        System.out.println(lengthOfEntryList);
+                                        for (int i = 0; i < lengthOfEntryList; i++) {
+                                                System.out.println(" --  " + entryList[i].name + "\n" +
+                                                        " --  " + entryList[i].number + "\n" +
+                                                        " --  " + entryList[i].notes);
+                                        }
+                                } else {
+                                        System.out.println("There are no entries.");
+                                }
+
+                        } else if (command == 'q') {
+                                System.out.println("System exiting.");
+                                break;
+
+                        } else {
+                                System.out.println("Command invalid.");
+                        }
+                }
+                System.out.print("\n");
+                return lengthOfEntryList;
+        }
+}
